@@ -1,5 +1,7 @@
 package com.dio.concerssionaria.service;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +19,16 @@ public class EnderecoService {
     private ConsultaCep consultaCep;
 
     public EnderecoDto consultaCep(EnderocoDtoInsert dtoInsert){
-        EnderecoDto endDto = consultaCep.viaCep(dtoInsert.getCep()).get();
-        endDto.setNumero(dtoInsert.getNumero());
-        if(endDto.getCep().isEmpty()){
+        var end = enderecoRepository.findById(dtoInsert.cep()).get();
+        if(Objects.isNull(end)){
+        EnderecoDto endDto = consultaCep.viaCep(dtoInsert.cep()).get();
+              if(endDto.getCep().isEmpty()){
             return null;
         }
         save(endDto);
         return endDto;
+    }
+      return end.endToDto();
     }
 
     public EnderecoDto save(EnderecoDto enderecoDto){

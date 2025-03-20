@@ -14,9 +14,7 @@ public class VeiculoDto {
     private float vvalor;
 
     public Veiculo dtoToVeiculo(){
-
         Veiculo v = new Veiculo();
-
         v.setAno(this.ano);
         v.setCor(this.cor);
         v.setModelo(this.modelo);

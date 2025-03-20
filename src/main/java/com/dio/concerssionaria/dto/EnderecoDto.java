@@ -12,7 +12,6 @@ public class EnderecoDto {
     private String logradouro;
     private String localidade;
     private String bairro;
-    private String numero;
 
     public Endereco dtoToEnd(){
         Endereco end = new Endereco();
@@ -21,7 +20,6 @@ public class EnderecoDto {
         end.setLocalidade(this.localidade);
         end.setLogradouro(this.logradouro);
         end.setUf(this.uf);
-        end.setNumero(this.numero);
 
         return end;
     }
