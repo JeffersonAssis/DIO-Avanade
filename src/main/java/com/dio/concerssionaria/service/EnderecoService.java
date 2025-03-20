@@ -1,10 +1,7 @@
 package com.dio.concerssionaria.service;
 
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.dio.concerssionaria.dto.EnderecoDto;
 import com.dio.concerssionaria.dto.EnderocoDtoInsert;
 import com.dio.concerssionaria.repository.EnderecoRepository;
@@ -19,24 +16,27 @@ public class EnderecoService {
     private ConsultaCep consultaCep;
 
     public EnderecoDto consultaCep(EnderocoDtoInsert dtoInsert){
-        var end = enderecoRepository.findById(dtoInsert.cep()).get();
-        if(Objects.isNull(end)){
-        EnderecoDto endDto = consultaCep.viaCep(dtoInsert.cep()).get();
-              if(endDto.getCep().isEmpty()){
-            return null;
+        if(!enderecoRepository.existsById(dtoInsert.cep())){
+        var endDto = consultaCep.viaCep(dtoInsert.cep());
+         if(endDto.isPresent()){
+                save(endDto.get());
+                return endDto.get();
         }
-        save(endDto);
-        return endDto;
+               
+        return endDto.get();
     }
-      return end.endToDto();
+      var end = enderecoRepository.findById(dtoInsert.cep());
+      return end.get().endToDto() ;
     }
 
-    public EnderecoDto save(EnderecoDto enderecoDto){
-        var end =  enderecoRepository.save(enderecoDto.dtoToEnd());
-        return end.endToDto();          
+    public void save(EnderecoDto enderecoDto){
+      enderecoRepository.save(enderecoDto.dtoToEnd());
+            
     }
 
     public EnderecoDto getCep(String cep){
-        return  enderecoRepository.findById(cep).get().endToDto();
+        EnderocoDtoInsert e = new EnderocoDtoInsert(cep);
+        EnderecoDto end = consultaCep(e);
+        return  end;
     }
 }

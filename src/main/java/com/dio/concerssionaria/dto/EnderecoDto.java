@@ -20,7 +20,7 @@ public class EnderecoDto {
         end.setLocalidade(this.localidade);
         end.setLogradouro(this.logradouro);
         end.setUf(this.uf);
-
+    
         return end;
     }
 

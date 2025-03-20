@@ -3,8 +3,8 @@ CREATE TABLE cliente (
     nome VARCHAR(90) NOT NULL,
     telefone VARCHAR(20) NOT NULL,
     numend VARCHAR(20) NOT NULL,
-    endereco INT,
-    FOREIGN KEY (endereco) REFERENCES endereco(cep)
+    cep VARCHAR(15),
+    FOREIGN KEY (cep) REFERENCES endereco(cep)
 );
 
 CREATE TABLE funcionario (
@@ -14,6 +14,6 @@ CREATE TABLE funcionario (
     numend VARCHAR(20) NOT NULL,
     matricula VARCHAR(20) NOT NULL,
     salario DECIMAL(10,2) NOT NULL,
-    endereco INT,
-    FOREIGN KEY (endereco) REFERENCES endereco(cep)
+    cep VARCHAR(15),
+    FOREIGN KEY (cep) REFERENCES endereco(cep)
 );
