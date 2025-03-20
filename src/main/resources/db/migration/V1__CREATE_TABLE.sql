@@ -5,4 +5,4 @@ CREATE TABLE veiculo (
     modelo VARCHAR(100) NOT NULL,
     ano INT NOT NULL,
     vvalor DECIMAL(10,2) NOT NULL
-);
+); 

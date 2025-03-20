@@ -16,7 +16,6 @@ public class Veiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false)
     private String placa;
     @Column(nullable = false)
@@ -29,7 +28,8 @@ public class Veiculo {
     private float vvalor;
 
     public VeiculoDto veiculoToDto(){
-        VeiculoDto vDto = new VeiculoDto();
+        VeiculoDto vDto = new  VeiculoDto();
+
         vDto.setAno(this.ano);
         vDto.setCor(this.cor);
         vDto.setModelo(this.modelo);

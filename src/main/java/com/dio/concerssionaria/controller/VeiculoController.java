@@ -17,6 +17,7 @@ public class VeiculoController {
 
     @Autowired
     private VeiculoService veiculoService;
+    
 
     @PostMapping
     public ResponseEntity<?> save(@RequestBody VeiculoDto vDto){
