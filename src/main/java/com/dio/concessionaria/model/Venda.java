@@ -1,7 +1,8 @@
 package com.dio.concessionaria.model;
 
+import java.time.LocalDate;
 import com.dio.concessionaria.dto.VendaDto;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +23,8 @@ public class Venda {
     @Column(nullable = false)
     private float valor;
     @Column(nullable = false)
-    private String vdata;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate vdata;
     @ManyToOne
     @JoinColumn(name = "cpf_fun", referencedColumnName = "cpf")
     private Funcionario funcionario;
@@ -36,7 +38,6 @@ public class Venda {
         VendaDto veDto= new VendaDto(); 
         veDto.setCliente(this.cliente.clienteToDto());
         veDto.setFuncionario(this.funcionario.funcionarioDtoToDto());
-        veDto.setId(this.id);
         veDto.setValor(this.valor);
         veDto.setVdata(this.vdata);
         veDto.setVeiculo(this.veiculo.veiculoToDto());

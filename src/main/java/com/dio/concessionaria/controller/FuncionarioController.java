@@ -51,7 +51,11 @@ public class FuncionarioController {
     }
 
     @PutMapping("{cpf}")
-    public ResponseEntity<?> update(@PathVariable String cpf, @RequestBody FuncionarioDtoInsert fDto) {
+    public ResponseEntity<?> update(@PathVariable String cpf, @RequestBody FuncionarioDtoInsert fDto, BindingResult bindingResult) {
+        ValidadorBindingResult validadorBindingResult = new ValidadorBindingResult(bindingResult);
+        if(validadorBindingResult.hasErrors()){
+          return ResponseEntity.badRequest().body(validadorBindingResult.getErrors());
+        }
         return ResponseEntity.ok(funcionarioService.update(cpf, fDto));
         
     }

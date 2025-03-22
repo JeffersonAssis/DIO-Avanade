@@ -1,7 +1,5 @@
 package com.dio.concessionaria.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,58 +13,57 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.dio.concessionaria.dto.ClienteDto;
-import com.dio.concessionaria.dto.ClienteDtoInsert;
-import com.dio.concessionaria.service.ClienteService;
+import com.dio.concessionaria.dto.VendaDtoInsert;
+import com.dio.concessionaria.service.VendaService;
 import com.dio.concessionaria.util.ValidadorBindingResult;
 
 import jakarta.validation.Valid;
 
-
 @RestController
-@RequestMapping("/cliente")
-public class ClienteController {
+@RequestMapping("/venda")
+public class VendaController {
 
-    
-    @Autowired
-    private ClienteService clienteService;
+  
+  @Autowired
+  private VendaService vendaService;
 
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody @Valid ClienteDtoInsert cDto, BindingResult bindingResult) {
+  @PostMapping
+    public ResponseEntity<?> save(@RequestBody @Valid VendaDtoInsert vDto, BindingResult bindingResult) {
         ValidadorBindingResult validadorBindingResult = new ValidadorBindingResult(bindingResult);
       if(validadorBindingResult.hasErrors()){
         return ResponseEntity.badRequest().body(validadorBindingResult.getErrors());
       }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(cDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(vendaService.save(vDto));
     }
 
     @GetMapping("{cpf}")
     public ResponseEntity<?> findById(@RequestParam String cpf) {
-        return ResponseEntity.status(HttpStatus.OK).body(clienteService.findByCliente(cpf));
+        return ResponseEntity.status(HttpStatus.OK).body(vendaService.findByFuncionario(cpf));
     }
 
     @GetMapping
     public ResponseEntity<?> findAll() {
-        List<ClienteDto> clientes = clienteService.findAll();
-        return ResponseEntity.ok(clientes);
+        return ResponseEntity.ok(vendaService.findAll());
     }
 
     @PutMapping("{cpf}")
-    public ResponseEntity<?> update(@PathVariable String cpf, @RequestBody ClienteDtoInsert cDto, BindingResult bindingResult) {
-        ValidadorBindingResult validadorBindingResult = new ValidadorBindingResult(bindingResult);
-        if(validadorBindingResult.hasErrors()){
-          return ResponseEntity.badRequest().body(validadorBindingResult.getErrors());
-        }
-        return ResponseEntity.ok(clienteService.update(cpf, cDto));
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid VendaDtoInsert vDto, BindingResult bindingResult) {
+      ValidadorBindingResult validadorBindingResult = new ValidadorBindingResult(bindingResult);
+      if(validadorBindingResult.hasErrors()){
+        return ResponseEntity.badRequest().body(validadorBindingResult.getErrors());
+      }
+      
+      return ResponseEntity.ok(vendaService.update( id, vDto));
         
     }
 
-    @DeleteMapping("{cpf}")
-    public ResponseEntity<?> delete(@PathVariable String cpf) {
-        clienteService.delete(cpf);
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+      vendaService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         
     }
+
+  
 }

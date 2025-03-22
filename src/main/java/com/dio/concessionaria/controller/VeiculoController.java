@@ -49,7 +49,11 @@ public class VeiculoController {
     }
 
     @PutMapping("{placa}")
-    public ResponseEntity<?> update(@PathVariable String placa, @RequestBody VeiculoDto vDto) {
+    public ResponseEntity<?> update(@PathVariable String placa, @RequestBody VeiculoDto vDto, BindingResult bindingResult) {
+        ValidadorBindingResult validadorBindingResult = new ValidadorBindingResult(bindingResult);
+        if(validadorBindingResult.hasErrors()){
+          return ResponseEntity.badRequest().body(validadorBindingResult.getErrors());
+        }
         return ResponseEntity.ok(veiculoService.update(placa, vDto));
         
     }
