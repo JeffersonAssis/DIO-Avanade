@@ -15,7 +15,7 @@ public class HandlerException {
   
   @ExceptionHandler(ObjectNotFoundException.class)
   public ResponseEntity<?> objectNotFunExException(ObjectNotFoundException err, HttpServletRequest request){
-    ExceptionEntity ee = new ExceptionEntity(LocalDateTime.now(), err.getMessage(), HttpStatus.NOT_FOUND.value(), request.getRequestURI());
+    ExceptionEntity ee = new ExceptionEntity(LocalDateTime.now(), err.getMessage(), HttpStatus.NO_CONTENT.value(), request.getRequestURI());
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ee);
   }
 

@@ -1,7 +1,5 @@
 package com.dio.concessionaria.controller;
 
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,11 +38,7 @@ public class EnderecoController {
 
     @GetMapping("{cep}")
     public ResponseEntity<?> getMethodName(@RequestParam String cep) {
-        var end = enderecoService.getCep(cep);
-        if(Objects.nonNull(end))
-        return ResponseEntity.status(HttpStatus.OK).body(end);
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.status(HttpStatus.OK).body(enderecoService.getCep(cep));
     }
     
 

@@ -1,5 +1,8 @@
 package com.dio.concessionaria.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +11,7 @@ import com.dio.concessionaria.dto.FuncionarioDto;
 import com.dio.concessionaria.dto.FuncionarioDtoInsert;
 import com.dio.concessionaria.exception.IllegalArgumentException;
 import com.dio.concessionaria.exception.ObjectNotFoundException;
+import com.dio.concessionaria.model.Funcionario;
 import com.dio.concessionaria.repository.FuncionarioRepository;
 
 @Service
@@ -37,6 +41,36 @@ public class FuncionarioService {
         }
         throw new ObjectNotFoundException("Funcionário não encontrado");
     }
+
+    public List<FuncionarioDto> findAll(){
+        return funcionarioRepository.findAll().stream()
+                                    .map(Funcionario::funcionarioDtoToDto)
+                                    .collect(Collectors.toList()); 
+    }
+
+    public FuncionarioDto update(String cpf, FuncionarioDtoInsert fDto) {
+        if (funcionarioRepository.existsById(cpf)) {
+            Funcionario existingFuncionario = funcionarioRepository.findById(cpf).get();
+            existingFuncionario.setNome(fDto.getNome());
+            existingFuncionario.setMatricula(fDto.getMatricula());
+            existingFuncionario.setTelefone(fDto.getTelefone());
+            existingFuncionario.setSalario(fDto.getSalario());
+            existingFuncionario.setNumend(fDto.getNumend());
+            existingFuncionario.setEndereco(enderecoService.getCep(fDto.getCep()).dtoToEnd());
+            funcionarioRepository.save(existingFuncionario);
+            return existingFuncionario.funcionarioDtoToDto();
+        }
+        throw new ObjectNotFoundException("Funcionário não encontrado");
+    }
+
+    public void delete(String cpf) {
+        if (funcionarioRepository.existsById(cpf)) {
+            funcionarioRepository.deleteById(cpf);
+        } else {
+            throw new ObjectNotFoundException("Funcionário não encontrado");
+        }
+    }
+
 
     private FuncionarioDto setFun(FuncionarioDtoInsert fdto){
         FuncionarioDto f = new FuncionarioDto();
