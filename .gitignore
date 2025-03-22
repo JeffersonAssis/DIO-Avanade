@@ -58,3 +58,5 @@ build/
 ### VS Code ###
 .vscode/
 >>>>>>> f3a8929 (comnit inicial)
+
+.fake
